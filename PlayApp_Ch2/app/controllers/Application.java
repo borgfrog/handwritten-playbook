@@ -20,9 +20,13 @@ public class Application extends Controller {
 
 	public static Result index() {
 		List<Message> datas = Message.find.all();
-		return ok(index.render("データベースのサンプル",datas));
+		List<Member> datas2 = Member.find.all();
+		return ok(index.render("データベースのサンプル",datas, datas2));
 	}
 
+	/*
+	 * Message Action
+	 */
 	public static Result add(){
 		Form<Message> f = new Form(Message.class);
 		return ok(add.render("投稿フォーム",f));
@@ -32,13 +36,34 @@ public class Application extends Controller {
 		Form<Message> f = new Form(Message.class).bindFromRequest();
 		if (!f.hasErrors()){
 			Message data = f.get();
+			data.member = Member.findByNmae(data.name);
 			data.save();
 			return redirect("/");
 		} else {
 			return badRequest(add.render("CREATE ERROR", f));
 		}
 	}
+	
+	/*
+	 * Member Action
+	 */
+	public static Result add2(){
+		Form<Member> f = new Form(Member.class);
+		return ok(add2.render("投稿フォーム",f));
+	}
 
+	public static Result create2(){
+		Form<Member> f = new Form(Member.class).bindFromRequest();
+		if (!f.hasErrors()){
+			Member data = f.get();
+			data.save();
+			return redirect("/");
+		} else {
+			return badRequest(add2.render("CREATE ERROR", f));
+		}
+	}
+
+	/*
 	public static Result setitem(){
 		Form<Message> f = new Form(Message.class);
 		return ok(item.render("ID番号を入力",f));
@@ -102,5 +127,5 @@ public class Application extends Controller {
 		}
 		return badRequest(find.render("投稿の検索", f, dates));
 	}
-
+	 */
 }

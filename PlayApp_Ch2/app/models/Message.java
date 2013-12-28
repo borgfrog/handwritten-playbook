@@ -20,21 +20,29 @@ public class Message extends Model {
 	public Long id;
 	@Required(message = "必須項目")
 	public String name;
-	@Email(message = "メールアドレスを記入してください")
-	public String mail;
+	//@Email(message = "メールアドレスを記入してください")
+	//public String mail;
 	//@Pattern(message = "半角英数字のみ", value="[a-zA-Z]+")
 	@Required(message = "必須項目")
-	@ValidateWith(value = IsUrl.class, message = "http:// で始まるメッセージ")
+	//@ValidateWith(value = IsUrl.class, message = "http:// で始まるメッセージ")
 	public String message;
 	@CreatedTimestamp
 	public Date postdate;
+	@OneToOne(cascade = CascadeType.ALL)
+	public Member member;
 
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", name=" + name + ", mail=" + mail
+		return "Message [id=" + id + ", name=" + name /* + ", mail=" + mail */
+				+ ", member:<" + member.name + ", " + member.mail + ">"
 				+ ", message=" + message + ", postdate=" + postdate + "]";
 	}
 	
+	public static Message findByNmae(String input) {
+		return Message.find.where().eq("name", input).findList().get(0);
+	}
+
+	/*
 	public static class IsUrl extends Validator<String> {
 		@Override
 		public Tuple<String, Object[]> getErrorMessageKey() {
@@ -45,4 +53,5 @@ public class Message extends Model {
 			return s.toLowerCase().startsWith("http://");
 		}
 	}
+	*/
 }
