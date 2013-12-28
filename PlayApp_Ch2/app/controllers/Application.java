@@ -92,4 +92,15 @@ public class Application extends Controller {
 		}
 	}
 
+	public static Result find(){
+		Form<FindForm> f = new Form(FindForm.class).bindFromRequest();
+		List<Message> dates = null;
+		if (!f.hasErrors()){
+			String input = f.get().input;
+			dates = Message.find.where().ilike("name", "%" + input + "%").orderBy("name")
+					 .findPagingList(10).getPage(0).getList();
+		}
+		return badRequest(find.render("投稿の検索", f, dates));
+	}
+
 }
