@@ -1,12 +1,15 @@
 package models;
 
 import java.util.*;
+
 import javax.persistence.*;
 
 import com.avaje.ebean.annotation.*;
 
 import play.db.ebean.*;
 import play.data.validation.Constraints.*;
+import play.libs.F.Tuple;
+import scala.collection.mutable.Stack;
 
 @Entity
 public class Message extends Model {
@@ -15,11 +18,13 @@ public class Message extends Model {
 
 	@Id
 	public Long id;
-	@Required
+	@Required(message = "必須項目")
 	public String name;
-	
+	@Email(message = "メールアドレスを記入してください")
 	public String mail;
-	@Required
+	//@Pattern(message = "半角英数字のみ", value="[a-zA-Z]+")
+	@Required(message = "必須項目")
+	@ValidateWith(value = IsUrl.class, message = "http:// で始まるメッセージ")
 	public String message;
 	@CreatedTimestamp
 	public Date postdate;
@@ -28,5 +33,16 @@ public class Message extends Model {
 	public String toString() {
 		return "Message [id=" + id + ", name=" + name + ", mail=" + mail
 				+ ", message=" + message + ", postdate=" + postdate + "]";
+	}
+	
+	public static class IsUrl extends Validator<String> {
+		@Override
+		public Tuple<String, Object[]> getErrorMessageKey() {
+			return new Tuple<String, Object[]>("error.invalid", new String[]{});
+		}
+		@Override
+		public boolean isValid(String s) {
+			return s.toLowerCase().startsWith("http://");
+		}
 	}
 }
