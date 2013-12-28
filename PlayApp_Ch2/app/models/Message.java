@@ -28,7 +28,7 @@ public class Message extends Model {
 	public String message;
 	@CreatedTimestamp
 	public Date postdate;
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	public Member member;
 
 	@Override
