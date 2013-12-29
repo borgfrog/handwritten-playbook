@@ -1,6 +1,10 @@
 @(msg: String, msgs: List[Message])
 @import helper._
 
+@showMsg(s: Object) = {
+    <td class="a">@s</td>
+}
+
 @main("Sample Page") {
     <h1>Hello!</h1>
     <p>@msg</p>
@@ -13,9 +17,9 @@
         </tr>
         @for(msg <- msgs) {
             <tr>
-                <td>@msg.id</td>
-                <td>@msg.name</td>
-                <td>@msg.message</td>
+                @showMsg(msg.id)
+                @showMsg(msg.name)
+                @showMsg(msg.message)
             </tr>
         }
     </table>

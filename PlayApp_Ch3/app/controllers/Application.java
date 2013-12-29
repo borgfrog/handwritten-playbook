@@ -5,6 +5,8 @@ import play.data.*;
 import play.data.validation.Constraints.Required;
 import static play.data.Form.*;
 import play.mvc.*;
+import scala.Tuple12;
+import scala.Tuple2;
 import views.html.*;
 
 import java.util.*;
@@ -24,7 +26,11 @@ public class Application extends Controller {
 	public static Result add(){
 		Form<Message> f = new Form(Message.class);
 		List<Member> mems = Member.find.select("name").findList();
-		return ok(add.render("投稿フォーム",f, mems));
+		List<Tuple2<String, String>> opts = new ArrayList<Tuple2<String, String>>();
+		for (Member mem : mems) {
+			opts.add(new Tuple2<String, String>(mem.name, mem.name));
+		}
+		return ok(add.render("投稿フォーム",f, opts));
 	}
 
 	public static Result create(){
