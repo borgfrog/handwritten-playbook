@@ -12,50 +12,49 @@ import java.util.*;
 import models.*;
 
 public class Application extends Controller {
-
-	public static class SampleForm {
-		public String input;
-		public String pass;
-		public boolean check;
-		public String radio;
-		public String sel;
-		public String area;
-		public Date date;
-		
-		@Override
-		public String toString() {
-			return "SampleForm [input=" + input + ", pass=" + pass + ", check="
-					+ check + ", radio=" + radio + ", sel=" + sel + ", area="
-					+ area + ", date=" + date + "]";
-		}
-	}
 	
 	public static Result index() {
-		SampleForm sf = new SampleForm();
-		sf.radio = "windows";
-		sf.check = true;
-		sf.input = "default value";
-		sf.sel = "uk";
-		Form<SampleForm> form = new Form(SampleForm.class).fill(sf);
-		return ok(index.render("please set form.", form));
-		/*
-		String method = request().method();
-		if ("GET".equals(method)) {
-			return ok(index.render("please type :"));
+		List<Message> msgs = Message.find.all();
+		return ok(index.render("please set form.", msgs));
+	}
+
+	/*
+	 * Message Action
+	 */
+	public static Result add(){
+		Form<Message> f = new Form(Message.class);
+		List<Member> mems = Member.find.select("name").findList();
+		return ok(add.render("投稿フォーム",f, mems));
+	}
+
+	public static Result create(){
+		Form<Message> f = new Form(Message.class).bindFromRequest();
+		if (!f.hasErrors()){
+			Message data = f.get();
+			data.member = Member.findByNmae(data.name);
+			data.save();
+			return redirect("/");
 		} else {
-			Map<String, String[]> form = request().body().asFormUrlEncoded();
-			String[] input = form.get("input");
-			return ok(index.render("posted : " + input[0]));
+			return badRequest(add.render("CREATE ERROR", f, null));
 		}
-		*/
 	}
 	
-	public static Result send() {
-		Form<SampleForm> f = new Form(SampleForm.class).bindFromRequest();
-		if (!f.hasErrors()) {
-			return ok(index.render(f.get().toString(), f));
+	/*
+	 * Member Action
+	 */
+	public static Result add2(){
+		Form<Member> f = new Form(Member.class);
+		return ok(add2.render("投稿フォーム",f));
+	}
+
+	public static Result create2(){
+		Form<Member> f = new Form(Member.class).bindFromRequest();
+		if (!f.hasErrors()){
+			Member data = f.get();
+			data.save();
+			return redirect("/");
 		} else {
-			return badRequest(index.render("SEND ERROR", f));
+			return badRequest(add2.render("CREATE ERROR", f));
 		}
 	}
 

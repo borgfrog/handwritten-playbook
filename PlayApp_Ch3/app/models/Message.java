@@ -20,11 +20,7 @@ public class Message extends Model {
 	public Long id;
 	@Required(message = "必須項目")
 	public String name;
-	//@Email(message = "メールアドレスを記入してください")
-	//public String mail;
-	//@Pattern(message = "半角英数字のみ", value="[a-zA-Z]+")
 	@Required(message = "必須項目")
-	//@ValidateWith(value = IsUrl.class, message = "http:// で始まるメッセージ")
 	public String message;
 	@CreatedTimestamp
 	public Date postdate;
@@ -41,17 +37,4 @@ public class Message extends Model {
 	public static Message findByNmae(String input) {
 		return Message.find.where().eq("name", input).findList().get(0);
 	}
-
-	/*
-	public static class IsUrl extends Validator<String> {
-		@Override
-		public Tuple<String, Object[]> getErrorMessageKey() {
-			return new Tuple<String, Object[]>("error.invalid", new String[]{});
-		}
-		@Override
-		public boolean isValid(String s) {
-			return s.toLowerCase().startsWith("http://");
-		}
-	}
-	*/
 }

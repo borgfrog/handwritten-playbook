@@ -4,9 +4,14 @@
 
 # Home page
 GET     /                           controllers.Application.index()
-POST    /                           controllers.Application.send()
+#POST    /                           controllers.Application.send()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 #GET     /index/:msg~:id              controllers.Application.index(msg: String, id: Int)
+
+GET     /add                        controllers.Application.add()
+POST    /create                     controllers.Application.create()
+GET     /add2                       controllers.Application.add2()
+POST    /create2                    controllers.Application.create2()
