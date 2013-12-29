@@ -1,12 +1,16 @@
-@(msg: String, datas: List[Message], datas2: List[Member])
+@(msg: String)
 
-@main("Sample Page") {
-    <h1>Hello!</h1>
-    <p>@msg</p>
-    <hr />
-    <p>Message Model</p>
-    <p>@datas</p>
-    <hr />
-    <p>Member Model</p>
-    <p>@datas2</p>
-}
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>sample</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+    </head>
+    <body>
+        <h1>Hello!</h1>
+        <p>@msg</p>
+    </body>
+</html>

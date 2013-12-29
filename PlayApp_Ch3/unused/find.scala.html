@@ -1,0 +1,12 @@
+@(msg: String, form1: Form[Application.FindForm], dates: List[Message])
+
+@main("Find Page") {
+    <h1>Find data</h1>
+    <p>@msg</p>
+    @helper.form(action = routes.Application.find){
+        @(helper.inputText(field = form1("input")))
+        <input type="submit" />
+    }
+    <hr/>
+    <p>@dates</p>
+}
