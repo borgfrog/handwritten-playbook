@@ -4,12 +4,15 @@ import play.*;
 import play.data.*;
 import play.data.validation.Constraints.Required;
 import static play.data.Form.*;
+import play.libs.Json;
 import play.mvc.*;
 import scala.Tuple12;
 import scala.Tuple2;
 import views.html.*;
 
 import java.util.*;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.*;
 
@@ -20,6 +23,20 @@ public class Application extends Controller {
 		return ok(index.render("please set form.", msgs));
 	}
 
+	public static Result ajax() {
+		String input = request().body().asFormUrlEncoded().get("input")[0];
+		ObjectNode result = Json.newObject();
+		if (input == null) {
+			result.put("status", "BAD");
+			result.put("message", "Can't get sending data...");
+			return badRequest(result);
+		} else {
+			result.put("status", "OK");
+			result.put("message", input);
+			return ok(result);			
+		}
+	}
+	
 	/*
 	 * Message Action
 	 */

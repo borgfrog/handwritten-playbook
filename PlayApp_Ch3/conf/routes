@@ -15,3 +15,5 @@ GET     /add                        controllers.Application.add()
 POST    /create                     controllers.Application.create()
 GET     /add2                       controllers.Application.add2()
 POST    /create2                    controllers.Application.create2()
+
+POST    /ajax                       controllers.Application.ajax()
