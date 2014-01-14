@@ -23,6 +23,7 @@ public class Application extends Controller {
 		return ok(index.render("please set form.", msgs));
 	}
 
+	/*
 	public static Result ajax() {
 		String input = request().body().asFormUrlEncoded().get("input")[0];
 		ObjectNode result = Json.newObject();
@@ -35,19 +36,14 @@ public class Application extends Controller {
 			result.put("message", input);
 			return ok(result);			
 		}
-	}
+	}*/
 	
 	/*
 	 * Message Action
 	 */
 	public static Result add(){
 		Form<Message> f = new Form(Message.class);
-		List<Member> mems = Member.find.select("name").findList();
-		List<Tuple2<String, String>> opts = new ArrayList<Tuple2<String, String>>();
-		for (Member mem : mems) {
-			opts.add(new Tuple2<String, String>(mem.name, mem.name));
-		}
-		return ok(add.render("投稿フォーム",f, opts));
+		return ok(add.render("投稿フォーム",f));
 	}
 
 	public static Result create(){
@@ -58,7 +54,7 @@ public class Application extends Controller {
 			data.save();
 			return redirect("/");
 		} else {
-			return badRequest(add.render("CREATE ERROR", f, null));
+			return badRequest(add.render("CREATE ERROR", f));
 		}
 	}
 	
