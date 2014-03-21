@@ -2,6 +2,8 @@ name := "PlayApp_Ch3"
 
 version := "1.0-SNAPSHOT"
 
+scalaVersion := "2.10.3"
+
 libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
